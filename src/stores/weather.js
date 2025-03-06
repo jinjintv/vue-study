@@ -24,7 +24,7 @@ const axiosInstance3 = axios.create({
 
 
 export const useWeatherStore = defineStore('weather', () => {
-  const address = ref('seoul');
+  const address = ref('');
   const currentConditions = ref(null);
   const days = ref(null);
 
@@ -87,15 +87,16 @@ export const useWeatherStore = defineStore('weather', () => {
 
   const getCityName = async () => {
     try {
-        const res = await axiosInstance2.get();
-        const ip = res.data.ip;
-        const res2 = await axiosInstance3.get(ip);
-        address.value = res2.data.cityName;
+      const res = await axiosInstance2.get();
+      const ip = res.data.ip;
+      const res2 = await axiosInstance3.get(ip);
+      console.log("IP 기반 위치 API 응답:", res2.data);
+      address.value = res2.data.cityName;
+      console.log("업데이트된 address:", address.value);
     } catch (e) {
-        alert(e.response?.data ? e.response?.data : e.message);
+      alert(e.response?.data ? e.response?.data : e.message);
     }
   }
-
   return {
     address,
     currentConditions,
